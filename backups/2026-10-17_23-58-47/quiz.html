@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dawod/thmanyah-font-web@1.2.0/sans.css">
+<title>اختبار — 100 خطوة لإتقان Claude</title>
+<style>
+:root {
+  --bg: #f6f3ee;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e6e0d6;
+  --accent: #d97757;
+  --accent-dark: #b85c3d;
+  --accent-soft: #fbe9e2;
+  --correct: #059669;
+  --wrong: #dc2626;
+  --shadow: 0 6px 24px rgba(31,41,55,0.08);
+  --radius: 16px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0;
+  font-family: 'Thmanyah Sans', 'Segoe UI', Tahoma, Arial, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.85; font-size: 17px;
+}
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.brand .logo { background: var(--accent); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 14px; }
+.brand .title { font-size: 18px; }
+.back-link { margin-inline-start: auto; color: var(--accent-dark); font-weight: 600; text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+.container { max-width: 820px; margin: 0 auto; padding: 32px 24px; }
+.hero { text-align: center; padding: 20px 0 30px; }
+.hero h1 { font-size: 34px; margin: 0 0 8px; color: var(--accent-dark); }
+.hero p { color: var(--muted); margin: 0; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 24px 28px; margin: 18px 0; box-shadow: var(--shadow);
+}
+.qnum { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+.qtext { font-size: 20px; font-weight: 700; margin: 0 0 16px; color: var(--accent-dark); }
+.options { list-style: none; padding: 0; margin: 0; }
+.options li {
+  padding: 12px 16px; margin: 8px 0; border: 1px solid var(--border); border-radius: 12px;
+  cursor: pointer; transition: all .15s; background: var(--surface);
+}
+.options li:hover { border-color: var(--accent); background: var(--accent-soft); }
+.options li.selected { border-color: var(--accent); background: var(--accent-soft); }
+.options li.correct { border-color: var(--correct); background: #ecfdf5; color: var(--correct); font-weight: 700; }
+.options li.wrong { border-color: var(--wrong); background: #fef2f2; color: var(--wrong); }
+.ref { margin-top: 12px; font-size: 14px; color: var(--muted); border-inline-start: 3px solid var(--border); padding-inline-start: 10px; }
+.actions { display: flex; gap: 12px; margin-top: 20px; }
+.actions button {
+  flex: 1; padding: 12px 16px; border: none; border-radius: 12px; cursor: pointer;
+  font-size: 15px; font-weight: 700; color: #fff; background: var(--accent);
+}
+.actions button.secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+.actions button:disabled { opacity: .5; cursor: default; }
+.score-box {
+  text-align: center; padding: 24px; background: var(--accent-soft); border-radius: var(--radius);
+  margin: 20px 0; border: 1px solid var(--border);
+}
+.score-box h2 { margin: 0 0 8px; color: var(--accent-dark); }
+.progress { height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; margin: 12px 0 20px; }
+.progress > div { height: 100%; background: var(--accent); transition: width .3s; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">
+    <span class="logo">Claude</span>
+    <span class="title">اختبار — 100 خطوة لإتقان Claude</span>
+  </div>
+  <a class="back-link" href="index.html">← العودة للموقع</a>
+</div>
+<div class="container">
+  <div class="hero">
+    <h1>اختبار المعرفة</h1>
+    <p>أسئلة اختيار متعدد مستندة إلى كتاب «100 خطوة لإتقان Claude»</p>
+  </div>
+  <div class="progress"><div id="progressBar" style="width:0%"></div></div>
+  <div id="quizArea"></div>
+  <div id="scoreArea" style="display:none;"></div>
+</div>
+
+<script id="qdata" type="application/json">[{"q": "ما عنوان الخطوة 28؟", "options": ["الكتابة مهارات", "كمحترف Deep Research", "Frontend الـ أساسيات", "الأخطاء تصحيح"], "answer": 2, "ref": "المرجع: الخطوة 28 — Frontend الـ أساسيات"}, {"q": "أي فصل تتبع الخطوة 69 («(الحماية حواجز) Guardrails»)؟", "options": ["Artifacts الـ", "(Connectors) الموصِّلات", "(Automation) الأتمتة", "Prompts الـ صياغة"], "answer": 2, "ref": "المرجع: الخطوة 69 — فصل «(Automation) الأتمتة»"}, {"q": "أي فصل تتبع الخطوة 93 («متقدمة Multi-Agent Systems»)؟", "options": ["Claude Code", "الخارق المستخدم", "عمل كزميل Claude", "(Connectors) الموصِّلات"], "answer": 1, "ref": "المرجع: الخطوة 93 — فصل «الخارق المستخدم»"}, {"q": "أي فصل تتبع الخطوة 34 («البحث مهارات»)؟", "options": ["Prompts الـ صياغة", "عمل كزميل Claude", "Claude Code", "Skills الـ"], "answer": 3, "ref": "المرجع: الخطوة 34 — فصل «Skills الـ»"}, {"q": "ما عنوان الخطوة 70؟", "options": ["(الحماية حواجز) Guardrails", "Skill الـ بنية", "المستقل AI الـ", "للتوسعة قابلة أنظمة"], "answer": 2, "ref": "المرجع: الخطوة 70 — المستقل AI الـ"}, {"q": "أي فصل تتبع الخطوة 99 («أنظمتك ابنِ»)؟", "options": ["Skills الـ", "Claude Code", "الأساسيات", "الخارق المستخدم"], "answer": 3, "ref": "المرجع: الخطوة 99 — فصل «الخارق المستخدم»"}, {"q": "ما عنوان الخطوة 78؟", "options": ["الممارسات أفضل", "والتحليل الاختبارات", "Slack", "الخاصة أنظمتك ابنِ"], "answer": 0, "ref": "المرجع: الخطوة 78 — الممارسات أفضل"}, {"q": "ما عنوان الخطوة 76؟", "options": ["التوثيق كتابة", "«صغيرة منتجات» بناء", "تعرفها أن يجب التي الإعدادات", "للأبد — Master Claude"], "answer": 0, "ref": "المرجع: الخطوة 76 — التوثيق كتابة"}, {"q": "أي فصل تتبع الخطوة 59 («الأذونات إعداد»)؟", "options": ["الخارق المستخدم", "الأساسيات", "Prompts الـ صياغة", "(Connectors) الموصِّلات"], "answer": 3, "ref": "المرجع: الخطوة 59 — فصل «(Connectors) الموصِّلات»"}, {"q": "أي وصف ينطبق على الخطوة 7 («الواجهة في جولة»)؟", "options": ["Claude.ai عناصر على تعرّف", "يناسبك؟ أيها — Free، Pro، Max، Team، Enterprise", "ومعياري نظيف كود — Best Practices", "الكل يكرهه الذي التوثيق — Write Documentation"], "answer": 0, "ref": "المرجع: الخطوة 7 — Claude.ai عناصر على تعرّف"}, {"q": "أي وصف ينطبق على الخطوة 84 («متقدمة تكاملات»)؟", "options": ["الأنظمة مع عميق دمج — Advanced Integrations", "artifact الـ يعمل لا عندما — Debugging", "البحث منهجية — Research Skills", "المنظّم العميق البحث"], "answer": 0, "ref": "المرجع: الخطوة 84 — الأنظمة مع عميق دمج — Advanced Integrations"}, {"q": "ما عنوان الخطوة 15؟", "options": ["والتحليل الاختبارات", "Prompts الـ تسلسل", "؟Claude هو ما", "الاتساق"], "answer": 1, "ref": "المرجع: الخطوة 15 — Prompts الـ تسلسل"}, {"q": "أي فصل تتبع الخطوة 56 («الملفات تحليل»)؟", "options": ["الأساسيات", "Claude Code", "Prompts الـ صياغة", "(Connectors) الموصِّلات"], "answer": 3, "ref": "المرجع: الخطوة 56 — فصل «(Connectors) الموصِّلات»"}, {"q": "أي فصل تتبع الخطوة 83 («Multi-Agent Systems»)؟", "options": ["(Connectors) الموصِّلات", "المتقدمة الاستخدام حالات", "Artifacts الـ", "Claude Code"], "answer": 1, "ref": "المرجع: الخطوة 83 — فصل «المتقدمة الاستخدام حالات»"}, {"q": "أي فصل تتبع الخطوة 15 («Prompts الـ تسلسل»)؟", "options": ["Prompts الـ صياغة", "(Automation) الأتمتة", "المتقدمة الاستخدام حالات", "الأساسيات"], "answer": 0, "ref": "المرجع: الخطوة 15 — فصل «Prompts الـ صياغة»"}, {"q": "ما عنوان الخطوة 95؟", "options": ["السياق تكديس", "للتوسعة قابلة أنظمة", "الأدوار تعدّد", "المتسلسل التفكير"], "answer": 1, "ref": "المرجع: الخطوة 95 — للتوسعة قابلة أنظمة"}, {"q": "أي وصف ينطبق على الخطوة 32 («Skill الـ بنية»)؟", "options": ["الكتب من أبعد — Advanced Prompting", "للمؤسسات — Scalable Systems", "بعمق المستندات معالجة — File Analysis", "skill الـ تشريح — Skill Structure"], "answer": 3, "ref": "المرجع: الخطوة 32 — skill الـ تشريح — Skill Structure"}, {"q": "أي وصف ينطبق على الخطوة 36 («Skills الـ مكتبات»)؟", "options": ["القادم الجيل — الاصطناعي الذكاء وكلاء", "أفضل تطلب أكثر تعلّم — Frontend Basics", "متتالية Automation Chaining — workflows", "الخاصة مكتبتك بناء — Skill Libraries"], "answer": 3, "ref": "المرجع: الخطوة 36 — الخاصة مكتبتك بناء — Skill Libraries"}, {"q": "أي فصل تتبع الخطوة 21 («؟Artifacts الـ هي ما»)؟", "options": ["Artifacts الـ", "Prompts الـ صياغة", "(Automation) الأتمتة", "الخارق المستخدم"], "answer": 0, "ref": "المرجع: الخطوة 21 — فصل «Artifacts الـ»"}, {"q": "أي وصف ينطبق على الخطوة 57 («البيانات جداول تحليل»)؟", "options": ["Claude.ai عناصر على تعرّف", "أسلوبك ليناسب Claude ضبط", "الكل يكرهه الذي التوثيق — Write Documentation", "الأرقام قوة — Spreadsheet Analysis"], "answer": 3, "ref": "المرجع: الخطوة 57 — الأرقام قوة — Spreadsheet Analysis"}, {"q": "أي فصل تتبع الخطوة 97 («كمحترف Deep Research»)؟", "options": ["Artifacts الـ", "(Connectors) الموصِّلات", "عمل كزميل Claude", "الخارق المستخدم"], "answer": 3, "ref": "المرجع: الخطوة 97 — فصل «الخارق المستخدم»"}, {"q": "ما عنوان الخطوة 65؟", "options": ["تنفيذي مستوى — الأعمال أتمتة", "الواجهة في جولة", "Claude API أساسيات", "السياق تكديس"], "answer": 2, "ref": "المرجع: الخطوة 65 — Claude API أساسيات"}, {"q": "ما عنوان الخطوة 5؟", "options": ["لبياناتك الوصول", "Google Drive", "الاستخدام حالات أفضل", "متقدمة تكاملات"], "answer": 2, "ref": "المرجع: الخطوة 5 — الاستخدام حالات أفضل"}, {"q": "ما عنوان الخطوة 32؟", "options": ["العمل سير تخصص", "ببساطة الكود اشرح", "Skill الـ بنية", "المخصص العمل سير"], "answer": 2, "ref": "المرجع: الخطوة 32 — Skill الـ بنية"}, {"q": "ما عنوان الخطوة 87؟", "options": ["الخاصة أنظمتك ابنِ", "Deep Research Ops", "Multi-Agent Systems", "جداً المتقدّم Prompting"], "answer": 1, "ref": "المرجع: الخطوة 87 — Deep Research Ops"}, {"q": "أي فصل تتبع الخطوة 44 («كاستراتيجي Claude»)؟", "options": ["(Automation) الأتمتة", "الخارق المستخدم", "عمل كزميل Claude", "Claude Code"], "answer": 2, "ref": "المرجع: الخطوة 44 — فصل «عمل كزميل Claude»"}, {"q": "ما عنوان الخطوة 18؟", "options": ["؟Skills الـ هي ما", "النظام تعليمات", "المتسلسل التفكير", "العملياتي الدعم"], "answer": 1, "ref": "المرجع: الخطوة 18 — النظام تعليمات"}, {"q": "ما عنوان الخطوة 4؟", "options": ["؟Artifacts الـ هي ما", "كباحث Claude", "(Context Window) السياق نافذة", "الاتساق"], "answer": 2, "ref": "المرجع: الخطوة 4 — (Context Window) السياق نافذة"}, {"q": "ما عنوان الخطوة 12؟", "options": ["Skills الـ مكتبات", "السياق تكديس", "Master Claude", "Multi-Agent Systems"], "answer": 1, "ref": "المرجع: الخطوة 12 — السياق تكديس"}, {"q": "أي وصف ينطبق على الخطوة 24 («بها لتبدأ بسيطة مشاريع»)؟", "options": ["طبقة فوق طبقة السياق بناء — Context Stacking", "عملية تمارين — Simple Projects", "تختلف وكيف هي ما — Claude Code Overview", "واحد؟ كل تستخدم متى — Opus، Sonnet، Haiku"], "answer": 1, "ref": "المرجع: الخطوة 24 — عملية تمارين — Simple Projects"}, {"q": "أي فصل تتبع الخطوة 1 («؟Claude هو ما»)؟", "options": ["(Automation) الأتمتة", "الأساسيات", "(Connectors) الموصِّلات", "Claude Code"], "answer": 1, "ref": "المرجع: الخطوة 1 — فصل «الأساسيات»"}, {"q": "ما عنوان الخطوة 30؟", "options": ["كمخطّط Claude", "«صغيرة منتجات» بناء", "التوثيق كتابة", "GitHub"], "answer": 1, "ref": "المرجع: الخطوة 30 — «صغيرة منتجات» بناء"}, {"q": "ما عنوان الخطوة 55؟", "options": ["Slack", "المفاتيح لوحة اختصارات", "الاستراتيجية مهارات", "Frontend الـ أساسيات"], "answer": 0, "ref": "المرجع: الخطوة 55 — Slack"}, {"q": "أي وصف ينطبق على الخطوة 60 («لبياناتك الوصول»)؟", "options": ["واحدة محادثة في متعددة قبعات يلبس Multi-role — Claude", "يدك تحت المعرفي كنزك — Access Your Data", "المساعد طبيعة وفهم تعريف", "Claude مع اليومي العمل — Operational Support"], "answer": 1, "ref": "المرجع: الخطوة 60 — يدك تحت المعرفي كنزك — Access Your Data"}, {"q": "ما عنوان الخطوة 29؟", "options": ["الأسعار خطط", "عميقاً مخصّصة Workflows", "React الـ Prompting", "المفاتيح لوحة اختصارات"], "answer": 2, "ref": "المرجع: الخطوة 29 — React الـ Prompting"}, {"q": "أي وصف ينطبق على الخطوة 10 («والتطبيقات الجوّال في Claude»)؟", "options": ["مكان كل في Claude استخدم", "حقيقية تفاعلية تطبيقات — React Prompting", "أسلوبك ليناسب Claude ضبط", "بدقة متخصصة Workflow Specialization — skills"], "answer": 0, "ref": "المرجع: الخطوة 10 — مكان كل في Claude استخدم"}, {"q": "ما عنوان الخطوة 82؟", "options": ["للتوسعة قابلة أنظمة", "متقدمة Multi-Agent Systems", "المباشر التعديل", "المخصص العمل سير"], "answer": 3, "ref": "المرجع: الخطوة 82 — المخصص العمل سير"}, {"q": "ما عنوان الخطوة 36؟", "options": ["لبياناتك الوصول", "Skills الـ مكتبات", "للتوسعة قابلة أنظمة", "الأسعار خطط"], "answer": 1, "ref": "المرجع: الخطوة 36 — Skills الـ مكتبات"}, {"q": "أي فصل تتبع الخطوة 88 («الأعمال أتمتة»)؟", "options": ["المتقدمة الاستخدام حالات", "Artifacts الـ", "Prompts الـ صياغة", "عمل كزميل Claude"], "answer": 0, "ref": "المرجع: الخطوة 88 — فصل «المتقدمة الاستخدام حالات»"}, {"q": "أي فصل تتبع الخطوة 38 («الهلوسة تقليل»)؟", "options": ["(Automation) الأتمتة", "عمل كزميل Claude", "Skills الـ", "الأساسيات"], "answer": 2, "ref": "المرجع: الخطوة 38 — فصل «Skills الـ»"}]</script>
+<script>
+const QUESTIONS = JSON.parse(document.getElementById('qdata').textContent);
+let current = 0;
+let score = 0;
+let answered = false;
+let userAnswers = [];
+
+function render() {
+  const area = document.getElementById('quizArea');
+  const scoreArea = document.getElementById('scoreArea');
+  if (current >= QUESTIONS.length) {
+    showScore();
+    return;
+  }
+  scoreArea.style.display = 'none';
+  const q = QUESTIONS[current];
+  let opts = '';
+  q.options.forEach((o, i) => {
+    opts += '<li data-idx="' + i + '">' + escapeHtml(o) + '</li>';
+  });
+  area.innerHTML = `
+    <div class="card">
+      <div class="qnum">السؤال ${current + 1} من ${QUESTIONS.length}</div>
+      <p class="qtext">${escapeHtml(q.q)}</p>
+      <ul class="options" id="opts">${opts}</ul>
+      <div class="ref" id="ref" style="display:none;">${escapeHtml(q.ref)}</div>
+      <div class="actions">
+        <button id="checkBtn" disabled>تحقق</button>
+        <button id="nextBtn" class="secondary" disabled>التالي →</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('progressBar').style.width = ((current) / QUESTIONS.length * 100) + '%';
+  let selected = null;
+  document.querySelectorAll('#opts li').forEach(li => {
+    li.addEventListener('click', () => {
+      if (answered) return;
+      document.querySelectorAll('#opts li').forEach(x => x.classList.remove('selected'));
+      li.classList.add('selected');
+      selected = parseInt(li.dataset.idx, 10);
+      document.getElementById('checkBtn').disabled = false;
+    });
+  });
+  document.getElementById('checkBtn').addEventListener('click', () => {
+    if (selected === null || answered) return;
+    answered = true;
+    const q = QUESTIONS[current];
+    userAnswers.push(selected);
+    document.querySelectorAll('#opts li').forEach((li, i) => {
+      if (i === q.answer) li.classList.add('correct');
+      else if (i === selected) li.classList.add('wrong');
+    });
+    if (selected === q.answer) score++;
+    document.getElementById('ref').style.display = 'block';
+    document.getElementById('checkBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = false;
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    answered = false;
+    current++;
+    render();
+  });
+}
+
+function showScore() {
+  const area = document.getElementById('quizArea');
+  const scoreArea = document.getElementById('scoreArea');
+  area.innerHTML = '';
+  scoreArea.style.display = 'block';
+  const pct = Math.round(score / QUESTIONS.length * 100);
+  scoreArea.innerHTML = `
+    <div class="score-box">
+      <h2>نتيجتك: ${score} / ${QUESTIONS.length}</h2>
+      <p>${pct}% — ${pct >= 80 ? 'ممتاز!' : pct >= 60 ? 'جيد' : 'يحتاج مراجعة'}</p>
+      <div class="actions" style="justify-content:center;">
+        <button onclick="restart()">إعادة الاختبار</button>
+        <button class="secondary" onclick="window.location.href='index.html'">العودة للموقع</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('progressBar').style.width = '100%';
+}
+
+function restart() {
+  current = 0; score = 0; answered = false; userAnswers = [];
+  document.getElementById('scoreArea').style.display = 'none';
+  render();
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+render();
+</script>
+</body>
+</html>

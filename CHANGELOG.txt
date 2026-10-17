@@ -1,0 +1,2 @@
+﻿2026-10-17 23:58:49 - Snapshot created: backups\2026-10-17_23-58-47 (index.html, quiz.html). Change: Full site readable Arabic (reshaped), Thmanyah font, quiz page, Claude logo, title '100 خطوة لإتقان Claude'.
+
